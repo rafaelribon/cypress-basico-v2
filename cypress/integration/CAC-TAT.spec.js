@@ -27,7 +27,6 @@ describe('Central de Atendimento ao Cliente TAT', function () {
         cy.get('#email').type('rafaeexemple.com')
         cy.get('#open-text-area').type('Teste Preenchimento do formulario')
         cy.contains('button', 'Enviar').click()
-
         cy.get('.error').should('be.visible')
 
     })
@@ -39,13 +38,13 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     })
 
 
-    it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
+    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
 
         cy.get('#firstName').type('Rafael')
         cy.get('#lastName').type('Ribon')
         cy.get('#email').type('rafa@eexemple.com')
         cy.get('#phone-checkbox').check()
-        cy.get('#open-text-area').type('Teste Preenchimento do formulario')
+        cy.get('#open-text-area').type('Teste Preenchimento do formulario' )
         cy.contains('button', 'Enviar').click()
 
         cy.get('.error').should('be.visible')
@@ -144,7 +143,34 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     })
 
 
+    it('seleciona um arquivo da pasta fixtures', function(){
+        cy.get('#file-upload')
+            .should('not.have.value')
+            .selectFile('cypress/fixtures/example.json')
+            .should(function($input){
+                expect($input[0].files[0].name).to.equal('example.json')
+            })
+    })
 
+    it('seleciona um arquivo simulando um drag-and-drop', function(){
+        cy.get('#file-upload')
+            .should('not.have.value')
+            .selectFile('cypress/fixtures/example.json',{ action: 'drag-drop' })
+            .should(function($input){
+                expect($input[0].files[0].name).to.equal('example.json')
+            })
+        })
+
+    it('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function(){
+        cy.fixture('example.json').as('sampleFile')
+        cy.get('#file-upload')
+        .selectFile('@sampleFile')
+        .should(function($input){
+            expect($input[0].files[0].name).to.equal('example.json')
+        })
+
+        
+    })
 
 })
 
