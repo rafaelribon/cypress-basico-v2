@@ -1,4 +1,4 @@
-/// <reference types="Cypress" />
+/// <reference types="cypress" />
 
 
 Cypress.Commands.add('fillMandatoryFieldsAndSubmit', function(){
@@ -7,5 +7,8 @@ Cypress.Commands.add('fillMandatoryFieldsAndSubmit', function(){
     cy.get('#email').type('rafae@exemple.com')
     cy.get('#open-text-area').type('Teste Preenchimento do formulario',{delay:0} )
     cy.contains('button','Enviar').click()
+
+
+    
 
 })
